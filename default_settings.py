@@ -2,6 +2,8 @@
 import os
 from os.path import dirname, join
 
+DEBUG = True
+
 SECRET_KEY = os.urandom(16)
 # configure file based session
 SESSION_TYPE = "filesystem"

@@ -35,7 +35,7 @@ Session(app)
 # configure flask-oauthlib application
 # TODO fetch config from https://identity.xero.com/.well-known/openid-configuration #1
 oauth = OAuth(app)
-xero = oauth.remote_app(
+xero: OAuth2Application = oauth.remote_app(
     name="xero",
     version="2",
     client_id=app.config["CLIENT_ID"],
@@ -47,7 +47,7 @@ xero = oauth.remote_app(
     scope="offline_access openid profile email accounting.transactions "
     "accounting.journals.read accounting.transactions payroll.payruns accounting.reports.read "
     "files accounting.settings.read accounting.settings accounting.attachments payroll.payslip payroll.settings files.read openid assets.read profile payroll.employees projects.read email accounting.contacts.read accounting.attachments.read projects assets accounting.contacts payroll.timesheets accounting.budgets.read",
-)  # type: OAuth2Application
+)
 
 
 # configure xero-python sdk client
@@ -221,6 +221,27 @@ def get_invoices():
     )
 
 
+@app.route("/contacts")
+@xero_token_required
+def get_contacts():
+    xero_tenant_id = get_xero_tenant_id()
+    accounting_api = AccountingApi(api_client)
+
+    contacts = accounting_api.get_contacts(xero_tenant_id)
+
+    code = serialize_model(contacts)
+    sub_title = "Total contacts found: {}".format(len(contacts.contacts))
+
+    return render_template(
+        "code.html", title="Contacts", code=code, sub_title=sub_title
+    )
+
+
+@app.route("/home")
+def home():
+    return "Hello, World!"
+
+
 @app.route("/login")
 def login():
     redirect_url = url_for("oauth_callback", _external=True)
@@ -286,5 +307,5 @@ def get_xero_tenant_id():
             return connection.tenant_id
 
 
-if __name__ == '__main__':
-    app.run(host='localhost', port=5000)
+if __name__ == "__main__":
+    app.run(host="localhost", port=5001)

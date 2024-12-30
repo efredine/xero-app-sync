@@ -1,6 +1,6 @@
-# xero-python-oauth-starter
+# xero-python-experiment
 
-This is a starter app with the code to perform OAuth 2.0 authentication
+This is a forked from the [Xero starter python app](https://github.com/XeroAPI/xero-python-oauth2-starter), a simple Flask app that demonstrates how to connect to the Xero API using OAuth 2.0.
 
 You'll be able to connect to a Xero Organisation and make real API calls - we recommend you connect to the Demo company.
 Please use your Demo Company organisation for your testing. 
@@ -9,18 +9,22 @@ Please use your Demo Company organisation for your testing.
 ## Getting Started
 
 ### Prerequirements
-* python3.5+ installed
-* git installed
-* SSH keys setup for your github profile.
+* uv installed
 
 ### Download the code
 * Clone this repo to your local drive.
 
 ### Local installation
 * Open terminal window and navigate to your `xero-python-oauth2-starter` local drive directory 
-* Create new python virtual environment by running `python3 -m venv venv`
-* Activate new virtual environment by running `source venv/bin/activate`
-* Install project dependencies by running `pip install -r requirements.txt`
+* Run `uv sync`
+* Activate new virtual environment by running `source ./venv/bin/activate`
+
+### Setting Up You Jetbrains IDE to Use the Virtual Environment
+* Open your Jetbrains IDE
+* Go to `File` -> `Settings` -> `Project: xero-python-oauth2-starter` -> `Python Interpreter`
+* Click on the gear icon and select `Add`
+* Select `Existing environment` and navigate to the `./venv/bin/python3` file
+* Click `OK` and `Apply`
 
 ## Create a Xero App
 To obtain your API keys, follow these steps and create a Xero app
@@ -29,7 +33,7 @@ To obtain your API keys, follow these steps and create a Xero app
 * Login to [Xero developer center](https://developer.xero.com/myapps)
 * Click "New App" link
 * Enter your App name, company url, privacy policy url.
-* Enter the redirect URI (your callback url - i.e. `http://localhost:5000/callback`)
+* Enter the redirect URI (your callback url - i.e. `http://localhost:5001/callback`)
     * Be aware `http://localhost/` and `http:/127.0.0.1/` are different urls
 * Agree to terms and condition and click "Create App".
 * Click "Generate a secret" button.
@@ -45,9 +49,9 @@ CLIENT_SECRET = "...client secret string..."
 
 ## Take it for a spin
 
-* Make sure your python virtual environment activated `source venv/bin/activate`
-* Start flask application `python3 app.py`
-* Launch your browser and navigate to http://localhost:5000/login 
+* Make sure your python virtual environment activated `source .venv/bin/activate`
+* Start flask application `python app.py`
+* Launch your browser and navigate to http://localhost:5001/login 
 * You should be redirected to Xero login page.
 * Grant access to your user account and select the Demo company to connect to.
 * Done - try out the different API calls
